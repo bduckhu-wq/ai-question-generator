@@ -3,6 +3,12 @@
     <!-- Logo 区域 -->
     <div class="sidebar-logo">
       <span class="logo-text">AI出题助手</span>
+      <span class="collapse-btn" @click="$emit('toggle')" :title="collapsed ? '展开' : '收起'">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline v-if="collapsed" points="9 18 15 12 9 6"></polyline>
+          <polyline v-else points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </span>
     </div>
 
     <!-- 功能菜单 -->
@@ -66,6 +72,10 @@ defineProps<{
   collapsed: boolean
 }>()
 
+const emit = defineEmits<{
+  (e: 'toggle'): void
+}>()
+
 const route = useRoute()
 
 const activeRoute = computed(() => route.path)
@@ -116,6 +126,29 @@ const handleSettings = () => {
   font-weight: 600;
   color: #fff;
   white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
+}
+
+.collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--sidebar-text);
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast);
+}
+
+.collapse-btn:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar.collapsed .collapse-btn {
+  margin: 0 auto;
 }
 
 /* Menu */

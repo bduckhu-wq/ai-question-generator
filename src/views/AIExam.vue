@@ -133,19 +133,25 @@
 
       <!-- 输入框 -->
       <div class="chat-input">
-        <el-input
-          v-model="inputText"
-          :placeholder="inputPlaceholder"
-          @keyup.enter="handleSend"
-          :disabled="examStore.isGenerating || step === 'generating'"
-          size="large"
-        >
-          <template #append>
-            <el-button type="primary" @click="handleSend" :disabled="examStore.isGenerating || !inputText.trim()">
-              发送
-            </el-button>
-          </template>
-        </el-input>
+        <div class="chat-input-wrapper">
+          <el-input
+            v-model="inputText"
+            type="textarea"
+            :placeholder="inputPlaceholder"
+            @keydown.enter.exact.prevent="handleSend"
+            :disabled="examStore.isGenerating || step === 'generating'"
+            :autosize="{ minRows: 2, maxRows: 6 }"
+            resize="none"
+          />
+          <el-button
+            class="chat-send-btn"
+            type="primary"
+            @click="handleSend"
+            :disabled="examStore.isGenerating || !inputText.trim()"
+          >
+            发送
+          </el-button>
+        </div>
       </div>
     </div>
 
@@ -596,19 +602,18 @@ function handlePrint() {
   flex-shrink: 0;
 }
 
-.chat-input :deep(.el-input-group__append) {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  padding: 0 16px;
+.chat-input-wrapper {
+  position: relative;
 }
 
-.chat-input :deep(.el-input-group__append:hover) {
-  background-color: var(--accent-hover);
+.chat-input-wrapper :deep(.el-textarea__inner) {
+  padding-right: 70px;
 }
 
-.chat-input :deep(.el-input-group__append .el-button) {
-  color: #fff;
+.chat-send-btn {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
 }
 
 /* ========== 初始化界面 ========== */

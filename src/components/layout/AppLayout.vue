@@ -1,7 +1,7 @@
 <template>
   <div class="app-layout">
     <!-- 侧边栏 -->
-    <SideBar :collapsed="sidebarCollapsed" />
+    <SideBar :collapsed="sidebarCollapsed" @toggle="sidebarCollapsed = !sidebarCollapsed" />
 
     <!-- 主内容区 -->
     <div class="main-area">
@@ -11,16 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
 import SideBar from './SideBar.vue'
 
-const props = withDefaults(defineProps<{
-  showPreview?: boolean
-}>(), {
-  showPreview: false
-})
-
-const sidebarCollapsed = computed(() => props.showPreview)
+const sidebarCollapsed = ref(false)
 </script>
 
 <style scoped>
