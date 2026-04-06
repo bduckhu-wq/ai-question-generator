@@ -1,0 +1,4 @@
+{"type":"server-started","port":64205,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:64205","screen_dir":"/sessions/69d321cb757222096c6e8e8f/workspace/.superpowers/brainstorm/42498-1775316418/content","state_dir":"/sessions/69d321cb757222096c6e8e8f/workspace/.superpowers/brainstorm/42498-1775316418/state"}
+{"type":"screen-added","file":"/sessions/69d321cb757222096c6e8e8f/workspace/.superpowers/brainstorm/42498-1775316418/content/layout-concept.html"}
+{"type":"screen-added","file":"/sessions/69d321cb757222096c6e8e8f/workspace/.superpowers/brainstorm/42498-1775316418/content/layout-v2.html"}
+{"type":"server-stopped","reason":"idle timeout"}
