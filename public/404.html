@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AI 出题助手</title>
+    <script>
+      // GitHub Pages SPA redirect: 将 404 页面的路径转换为正确的 SPA 路由
+      // 例如 /ai-question-generator/smart-import → 跳转到首页并带上 redirect 参数
+      var pathSegmentsToKeep = 1; // 保留 'ai-question-generator' 这一段
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
