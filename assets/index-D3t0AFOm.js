@@ -1,0 +1,1 @@
+const s={choice:"选择题",fillBlank:"填空题",shortAnswer:"解答题",judgment:"判断题"},e={easy:"简单",medium:"中等",hard:"困难"},a={math:"数学",chinese:"语文",english:"英语",physics:"物理",chemistry:"化学",biology:"生物",history:"历史",geography:"地理",politics:"政治"},r={grade7:"七年级",grade8:"八年级",grade9:"九年级",grade10:"高一",grade11:"高二",grade12:"高三"};export{e as D,r as G,s as L,a as S};
