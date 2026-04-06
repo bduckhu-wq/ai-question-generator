@@ -319,7 +319,7 @@ async function simulateOCR() {
   ]
 
   // 清空改编记录
-  Object.keys(adaptedMap).forEach(k => delete adaptedMap[k])
+  Object.keys(adaptedMap).forEach(k => delete adaptedMap[Number(k)])
 
   reasoningSteps.value[3] = { ...reasoningSteps.value[3], status: 'completed', completedAt: new Date().toISOString(), duration: Date.now() - t4, detail: `已将识别结果结构化为 ${recognizedQuestions.value.length} 道标准题目格式。`, detailItems: [`解析出 ${recognizedQuestions.value.length} 道题目`, '题型识别：2 道选择题 + 1 道填空题', '难度评估：1 道简单 + 2 道中等', '答案与解析已自动生成'] }
 
