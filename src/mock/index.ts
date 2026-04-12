@@ -258,7 +258,8 @@ export const sceneTemplates: SceneTemplate[] = [
       scene: 'homework',
       difficulty: 'easy',
       count: 15,
-      questionTypes: ['choice', 'fillBlank']
+      questionTypes: ['choice', 'fillBlank'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -270,7 +271,8 @@ export const sceneTemplates: SceneTemplate[] = [
       scene: 'unitTest',
       difficulty: 'medium',
       count: 20,
-      questionTypes: ['choice', 'fillBlank', 'shortAnswer']
+      questionTypes: ['choice', 'fillBlank', 'shortAnswer'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -281,7 +283,8 @@ export const sceneTemplates: SceneTemplate[] = [
     defaultCondition: {
       scene: 'midterm',
       count: 25,
-      questionTypes: ['choice', 'fillBlank', 'shortAnswer']
+      questionTypes: ['choice', 'fillBlank', 'shortAnswer'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -292,7 +295,8 @@ export const sceneTemplates: SceneTemplate[] = [
     defaultCondition: {
       scene: 'final',
       count: 30,
-      questionTypes: ['choice', 'fillBlank', 'shortAnswer']
+      questionTypes: ['choice', 'fillBlank', 'shortAnswer'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -304,7 +308,8 @@ export const sceneTemplates: SceneTemplate[] = [
       scene: 'special',
       difficulty: 'medium',
       count: 12,
-      questionTypes: ['choice', 'fillBlank']
+      questionTypes: ['choice', 'fillBlank'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -315,7 +320,8 @@ export const sceneTemplates: SceneTemplate[] = [
     defaultCondition: {
       scene: 'errorReview',
       count: 10,
-      questionTypes: ['choice', 'fillBlank']
+      questionTypes: ['choice', 'fillBlank'],
+      textbookVersion: 'pep'
     }
   },
   {
@@ -326,7 +332,8 @@ export const sceneTemplates: SceneTemplate[] = [
     defaultCondition: {
       scene: 'extension',
       count: 5,
-      questionTypes: ['choice']
+      questionTypes: ['choice'],
+      textbookVersion: 'pep'
     }
   }
 ]

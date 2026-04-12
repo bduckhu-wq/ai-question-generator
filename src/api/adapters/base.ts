@@ -32,6 +32,59 @@ export interface AdaptQuestionResponse {
   };
 }
 
+// ========== 组卷生成接口（新增） ==========
+
+// 组卷生成参数
+export interface GenerateExamParams {
+  subject: string
+  grade: string
+  textbookVersion?: string
+  scene: string
+  chapters: string[]
+  questionTypes: string[]
+  difficultyRatio?: { easy: number; medium: number; hard: number }
+  count: number
+  duration?: number
+  customRequirement?: string
+}
+
+// 组卷生成响应
+export interface GenerateExamResponse {
+  code: number
+  message: string
+  data: {
+    questions: Array<{
+      id: string
+      type: string
+      difficulty: string
+      content: string
+      options?: Array<{ label: string; content: string }>
+      answer: string
+      analysis?: string
+      score: number
+      source: 'bank' | 'ai'
+      knowledgePoints: string[]
+    }>
+    title: string
+    totalScore: number
+    duration: number
+  }
+}
+
+// 追问补齐响应
+export interface ClarifyResponse {
+  missingFields: string[]
+  message: string
+  quickOptions?: Record<string, string[]>
+}
+
+// 统一适配器接口（扩展）
+export interface ExamAdapter {
+  generateExam(params: GenerateExamParams): Promise<GenerateExamResponse>
+  clarify(input: string): Promise<ClarifyResponse>
+  adapt(params: AdaptQuestionParams): Promise<AdaptQuestionResponse>
+}
+
 // 生成随机请求 ID
 export function generateRequestId(): string {
   return Date.now().toString() + Math.random().toString(36).substring(2, 15);

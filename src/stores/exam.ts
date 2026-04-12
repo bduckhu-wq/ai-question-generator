@@ -7,10 +7,11 @@ import type {
   Question,
   ReasoningStep,
   QuestionVersion,
-  ExamSummary
+  ExamSummary,
+  CoverageItem
 } from '../types'
 import { mockQuestions, initialMessages } from '../mock'
-import { adaptQuestion as apiAdaptQuestion, type AdaptQuestionParams } from '../api'
+import { adaptQuestion as apiAdaptQuestion, clarifyInput, generateExam as apiGenerateExam, type AdaptQuestionParams } from '../api'
 
 export const useExamStore = defineStore('exam', () => {
   // ==================== 基础状态 ====================
@@ -62,6 +63,18 @@ export const useExamStore = defineStore('exam', () => {
 
   const examSummary = ref<ExamSummary | null>(null)
 
+  // ==================== 追问状态 ====================
+  const clarifyResponse = ref<any>(null)
+  const isClarifying = ref(false)
+
+  // ==================== 覆盖度 ====================
+  const coverageItems = ref<CoverageItem[]>([])
+
+  // ==================== 地区自动获取 ====================
+  const userRegion = ref<string | null>(null)
+  const userProvince = ref<string | null>(null)
+  const isDetectingRegion = ref(false)
+
   // ==================== 版本管理 ====================
 
   const questionVersions = ref<Map<string, QuestionVersion[]>>(new Map())
@@ -83,6 +96,7 @@ export const useExamStore = defineStore('exam', () => {
     currentPaper.value.totalScore = currentPaper.value.questions.reduce((sum, q) => sum + q.score, 0)
     // 同步更新摘要
     recalcExamSummary()
+    calculateCoverage()
   }
 
   // 重新计算试卷摘要
@@ -166,6 +180,110 @@ export const useExamStore = defineStore('exam', () => {
     isThinking.value = false
     isThinkingCompleted.value = false
     isReasoningRunning.value = false
+  }
+
+  // ==================== 追问补齐 ====================
+
+  async function clarifyUserInput(input: string): Promise<{ needClarify: boolean; clarifyData?: any }> {
+    isClarifying.value = true
+    try {
+      const response = await clarifyInput(input)
+      if (response.missingFields.length > 0) {
+        clarifyResponse.value = response
+        isClarifying.value = false
+        return { needClarify: true, clarifyData: response }
+      }
+      clarifyResponse.value = null
+      isClarifying.value = false
+      return { needClarify: false }
+    } catch (error) {
+      console.error('追问失败:', error)
+      isClarifying.value = false
+      return { needClarify: false }
+    }
+  }
+
+  function applyClarifySelections(selections: Record<string, string>) {
+    const labelToValue: Record<string, Record<string, any>> = {
+      subject: { '数学': 'math', '语文': 'chinese', '英语': 'english', '物理': 'physics', '化学': 'chemistry', '生物': 'biology', '历史': 'history', '地理': 'geography', '政治': 'politics' },
+      grade: { '七年级': 'grade7', '八年级': 'grade8', '九年级': 'grade9', '高一': 'grade10', '高二': 'grade11', '高三': 'grade12' },
+      textbookVersion: { '人教版': 'pep', '北师大版': 'bs', '苏教版': 'su', '浙教版': 'zj', '沪教版': 'hu' },
+      scene: { '课后练习': 'homework', '单元测验': 'unitTest', '期中复习': 'midterm', '期末复习': 'final', '专项训练': 'special' }
+    }
+
+    for (const [field, value] of Object.entries(selections)) {
+      if (field === 'subject' && labelToValue.subject[value]) {
+        condition.value.subject = labelToValue.subject[value]
+      } else if (field === 'grade' && labelToValue.grade[value]) {
+        condition.value.grade = labelToValue.grade[value]
+      } else if (field === 'textbookVersion' && labelToValue.textbookVersion[value]) {
+        condition.value.textbookVersion = labelToValue.textbookVersion[value]
+      } else if (field === 'scene' && labelToValue.scene[value]) {
+        condition.value.scene = labelToValue.scene[value]
+      }
+    }
+
+    clarifyResponse.value = null
+  }
+
+  // ==================== 覆盖度计算 ====================
+
+  function calculateCoverage() {
+    if (!currentPaper.value) {
+      coverageItems.value = []
+      return
+    }
+
+    const chapters = condition.value.scope?.chapters || condition.value.knowledgePoints || []
+    const questions = currentPaper.value.questions
+
+    const chapterMap = new Map<string, { covered: number; suggested: number; questionIds: string[] }>()
+
+    chapters.forEach(ch => {
+      chapterMap.set(ch, { covered: 0, suggested: 3, questionIds: [] })
+    })
+
+    questions.forEach(q => {
+      const matched = q.knowledgePoints?.filter(kp => chapterMap.has(kp)) || []
+      matched.forEach(kp => {
+        const entry = chapterMap.get(kp)!
+        entry.covered++
+        entry.questionIds.push(q.id)
+      })
+    })
+
+    coverageItems.value = Array.from(chapterMap.entries()).map(([kp, data]) => ({
+      knowledgePoint: kp,
+      chapter: kp,
+      coveredCount: data.covered,
+      suggestedCount: data.suggested,
+      coverageRate: Math.min(100, Math.round((data.covered / data.suggested) * 100)),
+      questions: data.questionIds
+    }))
+  }
+
+  // ==================== 地区自动获取 ====================
+
+  async function detectRegion() {
+    isDetectingRegion.value = true
+    try {
+      const { detectUserRegion, detectUserProvince } = await import('../utils/geo')
+      const { REGION_LABELS } = await import('../types')
+      const [region, province] = await Promise.all([
+        detectUserRegion(),
+        detectUserProvince()
+      ])
+      userRegion.value = region
+      userProvince.value = province
+      // 只有 regionCode 在 REGION_LABELS 中存在时才赋值，避免显示异常编码
+      if (region && REGION_LABELS[region]) {
+        condition.value.region = region
+      }
+    } catch (error) {
+      console.warn('[Store] 地区检测失败，忽略:', error)
+    } finally {
+      isDetectingRegion.value = false
+    }
   }
 
   // ==================== 生成题目（模拟流式思考模式） ====================
@@ -396,6 +514,7 @@ export const useExamStore = defineStore('exam', () => {
     isReasoningRunning.value = false
     isReasoningCompleted.value = true
     showPreview.value = true
+    calculateCoverage()
   }
 
   // ==================== 消息操作 ====================
@@ -717,6 +836,19 @@ export const useExamStore = defineStore('exam', () => {
     batchRemoveQuestions,
     batchAdaptQuestions,
     batchUpdateScore,
-    reset
+    reset,
+    // 追问
+    clarifyResponse,
+    isClarifying,
+    clarifyUserInput,
+    applyClarifySelections,
+    // 覆盖度
+    coverageItems,
+    calculateCoverage,
+    // 地区
+    userRegion,
+    userProvince,
+    isDetectingRegion,
+    detectRegion
   }
 })

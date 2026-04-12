@@ -1,0 +1,153 @@
+<h2>题目操作 — 两种内联展开方案对比</h2>
+<p class="subtitle">点击题目右上角「操作」后的展开效果</p>
+
+<div class="split">
+  <!-- 方案A：右侧滑出面板 -->
+  <div class="mockup">
+    <div class="mockup-header">方案 A：右侧滑出面板</div>
+    <div class="mockup-body" style="padding:0; background:#f5f5f5;">
+      <!-- 模拟试卷区域 -->
+      <div style="display:flex; height:100%; min-height:380px;">
+        <!-- 左侧试卷 -->
+        <div style="flex:1; padding:16px; overflow:hidden;">
+          <div style="background:#fff; border-radius:6px; padding:12px; border:1px solid #e0e0e0; margin-bottom:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:12px; color:#999;">1. 选择题 · 中等</span>
+              <span style="font-size:11px; color:#409eff; cursor:pointer;">操作 ▾</span>
+            </div>
+            <div style="font-size:13px; color:#333; line-height:1.6;">下列函数中，哪个是奇函数？</div>
+            <div style="font-size:12px; color:#666; margin-top:4px;">A. f(x)=x² &nbsp; B. f(x)=x³ &nbsp; C. f(x)=|x| &nbsp; D. f(x)=1</div>
+          </div>
+          <div style="background:#fff; border-radius:6px; padding:12px; border:1px solid #e0e0e0; margin-bottom:8px; opacity:0.5;">
+            <div style="font-size:13px; color:#333;">2. 填空题 · 简单 ...</div>
+          </div>
+          <div style="background:#fff; border-radius:6px; padding:12px; border:1px solid #e0e0e0; opacity:0.5;">
+            <div style="font-size:13px; color:#333;">3. 解答题 · 困难 ...</div>
+          </div>
+        </div>
+        <!-- 右侧滑出面板 -->
+        <div style="width:260px; background:#fff; border-left:1px solid #e0e0e0; padding:16px; box-shadow:-4px 0 12px rgba(0,0,0,0.08); display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:14px; font-weight:600; color:#333;">题目操作</span>
+            <span style="font-size:18px; color:#999; cursor:pointer;">×</span>
+          </div>
+          <!-- 当前题目信息 -->
+          <div style="background:#f7f8fa; border-radius:6px; padding:10px;">
+            <div style="font-size:11px; color:#999; margin-bottom:4px;">当前题目</div>
+            <div style="font-size:12px; color:#333; line-height:1.5;">下列函数中，哪个是奇函数？</div>
+            <div style="margin-top:6px; display:flex; gap:4px;">
+              <span style="font-size:10px; background:#e8f4fd; color:#1890ff; padding:2px 6px; border-radius:3px;">选择题</span>
+              <span style="font-size:10px; background:#fff7e6; color:#fa8c16; padding:2px 6px; border-radius:3px;">中等</span>
+              <span style="font-size:10px; background:#f0f0f0; color:#666; padding:2px 6px; border-radius:3px;">5分</span>
+            </div>
+          </div>
+          <!-- 操作按钮组 -->
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:6px; cursor:pointer; text-align:left; font-size:13px; color:#333;">
+              <span>📊</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;">换难度</div>
+                <div style="font-size:11px; color:#999;">中等 → 困难</div>
+              </div>
+            </button>
+            <button style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:6px; cursor:pointer; text-align:left; font-size:13px; color:#333;">
+              <span>📝</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;">换题型</div>
+                <div style="font-size:11px; color:#999;">选择题 → 填空题</div>
+              </div>
+            </button>
+            <button style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:6px; cursor:pointer; text-align:left; font-size:13px; color:#333;">
+              <span>✏️</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;">自定义改编</div>
+                <div style="font-size:11px; color:#999;">用文字描述修改需求</div>
+              </div>
+            </button>
+            <button style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:6px; cursor:pointer; text-align:left; font-size:13px; color:#333;">
+              <span>🔢</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;">分值调整</div>
+                <div style="font-size:11px; color:#999;">当前 5 分</div>
+              </div>
+            </button>
+            <button style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#fff1f0; border:1px solid #ffa39e; border-radius:6px; cursor:pointer; text-align:left; font-size:13px; color:#ff4d4f;">
+              <span>🗑️</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;">删除此题</div>
+                <div style="font-size:11px; color:#ff7875;">从试卷中移除</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 方案B：上方浮动工具栏 -->
+  <div class="mockup">
+    <div class="mockup-header">方案 B：上方浮动工具栏</div>
+    <div class="mockup-body" style="padding:0; background:#f5f5f5;">
+      <div style="padding:16px; position:relative;">
+        <!-- 浮动工具栏 -->
+        <div style="background:#fff; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.12); padding:8px 12px; margin-bottom:12px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span style="font-size:12px; color:#999; margin-right:4px;">1.</span>
+          <button style="display:flex; align-items:center; gap:4px; padding:6px 10px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:5px; cursor:pointer; font-size:12px; color:#333;">
+            📊 换难度
+            <span style="font-size:10px; color:#999;">中→难</span>
+          </button>
+          <button style="display:flex; align-items:center; gap:4px; padding:6px 10px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:5px; cursor:pointer; font-size:12px; color:#333;">
+            📝 换题型
+            <span style="font-size:10px; color:#999;">选→填</span>
+          </button>
+          <button style="display:flex; align-items:center; gap:4px; padding:6px 10px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:5px; cursor:pointer; font-size:12px; color:#333;">
+            ✏️ 自定义改编
+          </button>
+          <button style="display:flex; align-items:center; gap:4px; padding:6px 10px; background:#f7f8fa; border:1px solid #e8e8e8; border-radius:5px; cursor:pointer; font-size:12px; color:#333;">
+            🔢 分值 <span style="font-size:10px; color:#999;">5分</span>
+          </button>
+          <div style="width:1px; height:20px; background:#e0e0e0; margin:0 2px;"></div>
+          <button style="display:flex; align-items:center; gap:4px; padding:6px 10px; background:#fff1f0; border:1px solid #ffa39e; border-radius:5px; cursor:pointer; font-size:12px; color:#ff4d4f;">
+            🗑️ 删除
+          </button>
+          <span style="margin-left:auto; font-size:16px; color:#999; cursor:pointer; padding:4px;">×</span>
+        </div>
+
+        <!-- 当前选中的题目高亮 -->
+        <div style="background:#fff; border-radius:6px; padding:12px; border:2px solid #409eff; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:12px; color:#999;">1. 选择题 · 中等 · 5分</span>
+            <span style="font-size:11px; color:#409eff; cursor:pointer; font-weight:600;">操作 ▾</span>
+          </div>
+          <div style="font-size:13px; color:#333; line-height:1.6;">下列函数中，哪个是奇函数？</div>
+          <div style="font-size:12px; color:#666; margin-top:4px;">A. f(x)=x² &nbsp; B. f(x)=x³ &nbsp; C. f(x)=|x| &nbsp; D. f(x)=1</div>
+        </div>
+        <div style="background:#fff; border-radius:6px; padding:12px; border:1px solid #e0e0e0; margin-bottom:8px; opacity:0.5;">
+          <div style="font-size:13px; color:#333;">2. 填空题 · 简单 ...</div>
+        </div>
+        <div style="background:#fff; border-radius:6px; padding:12px; border:1px solid #e0e0e0; opacity:0.5;">
+          <div style="font-size:13px; color:#333;">3. 解答题 · 困难 ...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons" style="margin-top:16px;">
+  <div class="pros">
+    <h4>方案 A 优势</h4>
+    <ul>
+      <li>空间充裕，可展示题目预览+完整操作</li>
+      <li>不影响试卷布局，不遮挡其他题目</li>
+      <li>适合后续扩展更多操作项</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>方案 B 优势</h4>
+    <ul>
+      <li>操作更轻量，一目了然</li>
+      <li>不占用额外空间，试卷宽度不变</li>
+      <li>类似 Google Docs 浮动工具条，用户熟悉</li>
+    </ul>
+  </div>
+</div>

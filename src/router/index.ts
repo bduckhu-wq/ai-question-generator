@@ -30,7 +30,8 @@ const router = createRouter({
       name: 'QuestionBank',
       component: () => import('../views/QuestionBank.vue'),
       meta: { title: '我的题库' }
-    }
+    },
+
   ]
 })
 
